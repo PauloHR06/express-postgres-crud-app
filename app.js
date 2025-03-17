@@ -6,25 +6,27 @@ const { Pool } = require('pg');
 const app = express();
 const port = 3000;
 
-// Configuração do PostgreSQL
+require('dotenv').config(); // importa as variáveis de ambiente.
+
+// configuração do pool de conexão com o banco de dados.
 const pool = new Pool({
-  user: 'postgres',
-  host: 'database-1.cpxnjfyhrw5s.us-east-1.rds.amazonaws.com',
-  database: 'postgres',
-  password: '8BhSqw5JRjngnHpBhvRP',
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
   ssl: {
-    rejectUnauthorized: false, // Necessário para conexões com AWS RDS
+    rejectUnauthorized: false, // necessário para conexões com AWS RDS.
   },
 });
 
-// Middleware
+// middleware.
 app.use(cors());
-app.use(bodyParser.json()); // Suporte para JSON
-app.use(bodyParser.urlencoded({ extended: true })); // Suporte para URL-encoded
+app.use(bodyParser.json()); // suporte para JSON.
+app.use(bodyParser.urlencoded({ extended: true })); // suporte para URL-encoded.
 app.use(express.static('public'));
 
-// Rota para obter todos os profissionais
+// SELECT * FROM professionals.
 app.get('/professionals', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM professionals');
@@ -35,11 +37,11 @@ app.get('/professionals', async (req, res) => {
   }
 });
 
-// Rota para adicionar um profissional
+// INSERT INTO professionals.
 app.post('/professionals', async (req, res) => {
   const { name, email, age } = req.body;
 
-  // Conversões
+  // conversões necessárias.
   const ageInt = parseInt(age, 10);
 
   try {
@@ -54,7 +56,7 @@ app.post('/professionals', async (req, res) => {
   }
 });
 
-// Iniciando o servidor
+// inicializando o servidor.
 app.listen(port, () => {
   console.log(`App rodando na porta ${port}.`);
 });
