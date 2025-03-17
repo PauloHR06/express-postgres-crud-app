@@ -29,3 +29,27 @@ Professional Manager is a simple web application built with Node.js, Express and
 
 5. Abra o arquivo ```index.html```
 
+## Configuração do AWS RDS
+
+1. Crie uma instância RDS PostgreSQL no AWS Console
+
+2. Habilite o acesso público e configure regras de segurança para permitir conexões externas.
+
+3. Anote as credenciais da instância, incluindo:
+    * Endpoint (host)
+    * User e Password 
+    * Database name
+    * Port (padrão: 5432)
+
+4. Crie um arquivo ```.env``` na raiz do projeto e adicione as credenciais do RDS:
+
+```
+DB_USER=seu_usuario
+DB_HOST=seu_endpoint_rds
+DB_NAME=seu_banco
+DB_PASSWORD=sua_senha
+DB_PORT=5432
+```
+
+> Obs. Não compartilhe credenciais em repositórios públicos
+
