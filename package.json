@@ -1,0 +1,17 @@
+{
+  "name": "express-postgres-crud-app",
+  "version": "1.0.0",
+  "description": "Professional Manager is a simple web application built with Node.js, Express and PostgreSQL. The project allows users to register, list, and manage professionals through a web interface. 🚀",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "pg": "^8.14.0"
+  }
+}
