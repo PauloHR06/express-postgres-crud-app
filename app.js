@@ -8,11 +8,14 @@ const port = 3000;
 
 // Configuração do PostgreSQL
 const pool = new Pool({
-  user: 'my-user',
-  host: 'localhost',
-  database: 'my-database',
-  password: 'PauloHR0512#',
+  user: 'postgres',
+  host: 'database-1.cpxnjfyhrw5s.us-east-1.rds.amazonaws.com',
+  database: 'postgres',
+  password: '8BhSqw5JRjngnHpBhvRP',
   port: 5432,
+  ssl: {
+    rejectUnauthorized: false, // Necessário para conexões com AWS RDS
+  },
 });
 
 // Middleware
