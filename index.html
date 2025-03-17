@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Professional App</h1>
+        <form id="professionalForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" class="form-control" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="is_active">Active</label>
+                <select class="form-control" id="is_active" name="is_active">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <h2 class="mt-5">Professionals List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody id="professionalTable">
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function loadProfessionals() {
+                $.get('http://localhost:3000/professionals', function(data) {
+                    $('#professionalTable').empty();
+                    data.forEach(function(professional) {
+                        $('#professionalTable').append(
+                            `<tr>
+                                <td>${professional.id}</td>
+                                <td>${professional.name}</td>
+                                <td>${professional.email}</td>
+                                <td>${professional.age}</td>
+                                <td>${professional.is_active ? 'Yes' : 'No'}</td>
+                            </tr>`
+                        );
+                    });
+                }).fail(function() {
+                    console.error("Erro ao carregar os profissionais.");
+                });
+            }
+
+            $('#professionalForm').submit(function(event) {
+                event.preventDefault();
+                
+                const formData = {
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    age: parseInt($('#age').val(), 10),
+                    is_active: $('#is_active').val() === "true"
+                };
+
+                $.ajax({
+                    url: 'http://localhost:3000/professionals',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function() {
+                        loadProfessionals();
+                        $('#professionalForm')[0].reset();
+                    },
+                    error: function(err) {
+                        console.error("Erro ao cadastrar profissional", err);
+                    }
+                });
+            });
+
+            loadProfessionals();
+        });
+    </script>
+</body>
+</html>
